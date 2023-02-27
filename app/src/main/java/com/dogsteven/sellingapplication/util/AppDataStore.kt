@@ -17,7 +17,7 @@ class AppDataStore(private val context: Context) {
         val USER_KEY = stringPreferencesKey("user")
     }
 
-    val getCurrentUser: Flow<User?> = context.dataStore.data
+    val currentUser: Flow<User?> = context.dataStore.data
         .map { preferences ->
             val userString = preferences[USER_KEY]
             if (userString != null) {

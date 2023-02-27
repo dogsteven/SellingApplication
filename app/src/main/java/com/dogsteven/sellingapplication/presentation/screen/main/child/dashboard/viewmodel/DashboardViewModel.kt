@@ -1,4 +1,4 @@
-package com.dogsteven.sellingapplication.presentation.screen.main.tag.dashboard.viewmodel
+package com.dogsteven.sellingapplication.presentation.screen.main.child.dashboard.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.SavedStateHandle

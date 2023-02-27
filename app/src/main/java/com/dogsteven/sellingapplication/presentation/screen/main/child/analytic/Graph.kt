@@ -1,4 +1,4 @@
-package com.dogsteven.sellingapplication.presentation.screen.main.tag.analytic
+package com.dogsteven.sellingapplication.presentation.screen.main.child.analytic
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable

@@ -5,11 +5,12 @@ import com.dogsteven.sellingapplication.domain.model.local.Order
 
 @Dao
 interface OrderDAO {
-    @Query("SELECT * FROM order WHERE date >= :date")
+    @Transaction
+    @Query("SELECT * FROM orders WHERE date >= :date;")
     suspend fun getAllOrderFromDate(date: Long): List<Order.OrderWithSubOrders>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertOrder(order: Order): Int
+    suspend fun insertOrder(order: Order): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertSubOrders(suborders: List<Order.Suborder>)
@@ -19,6 +20,6 @@ interface OrderDAO {
         insertSubOrders(suborders.map { suborder -> suborder.copy(orderID = orderID) })
     }
 
-    @Query("DELETE FROM order WHERE date < :date")
+    @Query("DELETE FROM orders WHERE date < :date;")
     suspend fun removeAllOrderUntilDate(date: Long)
 }

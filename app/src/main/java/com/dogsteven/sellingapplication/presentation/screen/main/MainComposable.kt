@@ -17,9 +17,9 @@ import com.dogsteven.sellingapplication.navigation.AppNavController
 import com.dogsteven.sellingapplication.navigation.MainNavigationRoute
 import com.dogsteven.sellingapplication.navigation.RouteGraph
 import com.dogsteven.sellingapplication.presentation.component.EventHandlerComposable
-import com.dogsteven.sellingapplication.presentation.screen.main.tag.analytic.buildAnalyticComposable
-import com.dogsteven.sellingapplication.presentation.screen.main.tag.dashboard.buildDashboardComposable
-import com.dogsteven.sellingapplication.presentation.screen.main.tag.management.buildManagementComposable
+import com.dogsteven.sellingapplication.presentation.screen.main.child.analytic.buildAnalyticComposable
+import com.dogsteven.sellingapplication.presentation.screen.main.child.dashboard.buildDashboardComposable
+import com.dogsteven.sellingapplication.presentation.screen.main.child.management.buildManagementComposable
 import com.dogsteven.sellingapplication.presentation.screen.main.viewmodel.MainViewModel
 import com.dogsteven.sellingapplication.util.AppDataStore
 import kotlinx.coroutines.launch
@@ -34,7 +34,7 @@ fun MainComposable(
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
     val appDataStore = AppDataStore(context)
-    val user by appDataStore.getCurrentUser.collectAsState(initial = null)
+    val user by appDataStore.currentUser.collectAsState(initial = null)
 
     if (user != null) {
         val signedInUser = user!!
@@ -48,6 +48,7 @@ fun MainComposable(
         val currentDestination = mainNavBackStackEntry?.destination
 
         val currentMainRoute: MainNavigationRoute? = visibleRoutes.firstOrNull { route -> currentDestination?.route == route.destination }
+
 
         Scaffold(
             topBar = {

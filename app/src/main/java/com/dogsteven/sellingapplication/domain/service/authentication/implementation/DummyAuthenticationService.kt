@@ -1,8 +1,6 @@
 package com.dogsteven.sellingapplication.domain.service.authentication.implementation
 
 import com.dogsteven.sellingapplication.domain.model.remote.User
-import com.dogsteven.sellingapplication.domain.repository.user.UserRepository
-import com.dogsteven.sellingapplication.domain.repository.user.implementation.DummyUserRepository
 import com.dogsteven.sellingapplication.util.Result
 import com.dogsteven.sellingapplication.domain.service.authentication.AuthenticationService
 import com.dogsteven.sellingapplication.util.dummy.DummyUserDatabase
@@ -19,6 +17,6 @@ class DummyAuthenticationService @Inject constructor(
                 return Result.Success(user)
             }
         }
-        return Result.Failure(Throwable("Username or password is incorrect"))
+        return Result.Failure("Username or password is incorrect")
     }
 }

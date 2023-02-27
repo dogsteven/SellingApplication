@@ -1,4 +1,4 @@
-package com.dogsteven.sellingapplication.presentation.screen.main.tag.analytic.viewmodel
+package com.dogsteven.sellingapplication.presentation.screen.main.child.management.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.SavedStateHandle
@@ -7,7 +7,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class AnalyticViewModel @Inject constructor(
+class ManagementViewModel @Inject constructor(
     application: Application,
     savedStateHandle: SavedStateHandle
 ): BaseViewModel(application, savedStateHandle) {

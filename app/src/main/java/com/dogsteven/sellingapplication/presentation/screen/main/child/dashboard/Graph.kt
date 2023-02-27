@@ -1,4 +1,4 @@
-package com.dogsteven.sellingapplication.presentation.screen.main.tag.dashboard
+package com.dogsteven.sellingapplication.presentation.screen.main.child.dashboard
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable

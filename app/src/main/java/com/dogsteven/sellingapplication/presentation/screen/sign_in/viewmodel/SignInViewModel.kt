@@ -35,7 +35,7 @@ class SignInViewModel @Inject constructor(
 
     suspend fun getUserFromAppDataStore() {
         val appDataStore = AppDataStore(context = application.applicationContext)
-        appDataStore.getCurrentUser.collectLatest { user ->
+        appDataStore.currentUser.collectLatest { user ->
             if (user != null) {
                 setInputUsername(user.username)
                 setInputPassword(user.password)
@@ -59,7 +59,7 @@ class SignInViewModel @Inject constructor(
                 emitEvent(navigateToMain)
             }
 
-            override suspend fun onFailure(error: Throwable) {
+            override suspend fun onFailure(reason: String) {
                 setAuthenticationState(SignInState.AuthenticationState.Failed)
             }
         }

@@ -56,7 +56,8 @@ fun SignInComposable(
             )
 
             Button(
-                onClick = viewModel::authenticate
+                onClick = viewModel::authenticate,
+                enabled = !(state.authenticationState is SignInState.AuthenticationState.Loading || state.authenticationState is SignInState.AuthenticationState.Success)
             ) {
                 Text(
                     text = when (state.authenticationState) {

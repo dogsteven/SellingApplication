@@ -1,4 +1,4 @@
-package com.dogsteven.sellingapplication.domain.repository.user
+package com.dogsteven.sellingapplication.domain.repository.remote.user
 
 import com.dogsteven.sellingapplication.util.Result
 import com.dogsteven.sellingapplication.domain.model.remote.User

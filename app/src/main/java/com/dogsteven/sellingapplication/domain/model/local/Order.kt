@@ -1,18 +1,23 @@
 package com.dogsteven.sellingapplication.domain.model.local
 
+import androidx.annotation.NonNull
 import androidx.room.*
 import com.dogsteven.sellingapplication.util.RoomDateTimeConverter
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.LocalDateTime
 import java.util.*
 
-@Entity(tableName = "order")
+@Entity(tableName = "orders")
 data class Order(
-    @PrimaryKey
-    val id: Int,
-    @TypeConverters(RoomDateTimeConverter::class)
-    val date: Date
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(index = true)
+    val id: Long,
+    val date: Date = Date().also(SimpleDateFormat.getDateInstance()::format),
+    val byUserID: Int
 ) {
     @Entity(
-        tableName = "suborder",
+        tableName = "suborders",
         foreignKeys = [
             ForeignKey(
                 entity = Order::class,
@@ -23,9 +28,9 @@ data class Order(
         ]
     )
     data class Suborder(
-        @PrimaryKey
-        val id: Int,
-        val orderID: Int,
+        @PrimaryKey(autoGenerate = true)
+        val id: Long,
+        val orderID: Long,
         val productID: Int,
         val price: Int,
         val amount: Int
@@ -39,5 +44,19 @@ data class Order(
             entityColumn = "orderID"
         )
         val suborders: List<Suborder>
-    )
+    ) {
+        val dictionary: Map<String, Any> get() = mapOf(
+            "date" to order.date.time,
+            "byUserID" to order.byUserID,
+            "suborders" to suborders.map { suborder ->
+                suborder.run {
+                    mapOf(
+                        "productID" to productID,
+                        "price" to price,
+                        "amount" to amount
+                    )
+                }
+            }
+        )
+    }
 }
