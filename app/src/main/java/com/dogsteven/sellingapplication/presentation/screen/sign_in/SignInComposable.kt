@@ -46,12 +46,14 @@ fun SignInComposable(
         ) {
             TextField(
                 value = state.inputUsername,
-                onValueChange = viewModel::setInputUsername
+                onValueChange = viewModel::setInputUsername,
+                placeholder = { Text(text = "Username") }
             )
 
             TextField(
                 value = state.inputPassword,
                 onValueChange = viewModel::setInputPassword,
+                placeholder = { Text(text = "Password") },
                 visualTransformation = PasswordVisualTransformation()
             )
 

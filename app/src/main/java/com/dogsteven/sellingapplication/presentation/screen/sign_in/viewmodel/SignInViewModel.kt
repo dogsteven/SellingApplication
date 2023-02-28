@@ -59,7 +59,7 @@ class SignInViewModel @Inject constructor(
                 emitEvent(navigateToMain)
             }
 
-            override suspend fun onFailure(reason: String) {
+            override suspend fun onFailure(exception: Throwable) {
                 setAuthenticationState(SignInState.AuthenticationState.Failed)
             }
         }

@@ -6,4 +6,6 @@ import javax.inject.Inject
 
 class OrderRepository  @Inject constructor(
     private val orderDAO: OrderDAO
-)
+) {
+
+}

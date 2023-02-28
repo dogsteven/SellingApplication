@@ -1,9 +1,10 @@
 package com.dogsteven.sellingapplication.domain.use_case
 
-import com.dogsteven.sellingapplication.util.Result
+import com.dogsteven.sellingapplication.common.Result
 import com.dogsteven.sellingapplication.common.UseCase
 import com.dogsteven.sellingapplication.domain.model.remote.User
 import com.dogsteven.sellingapplication.domain.service.authentication.AuthenticationService
+import com.dogsteven.sellingapplication.util.dummy.map
 import javax.inject.Inject
 
 class AuthenticateUserUseCase @Inject constructor(

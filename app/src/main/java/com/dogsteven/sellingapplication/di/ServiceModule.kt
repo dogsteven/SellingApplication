@@ -1,7 +1,7 @@
 package com.dogsteven.sellingapplication.di
 
 import com.dogsteven.sellingapplication.domain.service.authentication.AuthenticationService
-import com.dogsteven.sellingapplication.domain.service.authentication.implementation.DummyAuthenticationService
+import com.dogsteven.sellingapplication.util.dummy.DummyAuthenticationService
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

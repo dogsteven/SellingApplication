@@ -1,7 +1,7 @@
-package com.dogsteven.sellingapplication.domain.service.authentication.implementation
+package com.dogsteven.sellingapplication.util.dummy
 
 import com.dogsteven.sellingapplication.domain.model.remote.User
-import com.dogsteven.sellingapplication.util.Result
+import com.dogsteven.sellingapplication.common.Result
 import com.dogsteven.sellingapplication.domain.service.authentication.AuthenticationService
 import com.dogsteven.sellingapplication.util.dummy.DummyUserDatabase
 import kotlinx.coroutines.delay
@@ -17,6 +17,6 @@ class DummyAuthenticationService @Inject constructor(
                 return Result.Success(user)
             }
         }
-        return Result.Failure("Username or password is incorrect")
+        return Result.Failure(Throwable("Username or password is incorrect"))
     }
 }

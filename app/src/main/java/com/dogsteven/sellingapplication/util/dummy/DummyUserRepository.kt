@@ -1,9 +1,8 @@
-package com.dogsteven.sellingapplication.domain.repository.remote.user.implementation
+package com.dogsteven.sellingapplication.util.dummy
 
-import com.dogsteven.sellingapplication.util.Result
+import com.dogsteven.sellingapplication.common.Result
 import com.dogsteven.sellingapplication.domain.model.remote.User
 import com.dogsteven.sellingapplication.domain.repository.remote.user.UserRepository
-import com.dogsteven.sellingapplication.util.dummy.DummyUserDatabase
 import kotlinx.coroutines.delay
 import javax.inject.Inject
 
@@ -17,7 +16,7 @@ class DummyUserRepository @Inject constructor(
                 return Result.Success(user)
             }
         }
-        return Result.Failure("No user with id $id")
+        return Result.Failure(Throwable("No user with id $id"))
     }
 
     override suspend fun getAllUsers(): Result<List<User>> {
@@ -35,7 +34,7 @@ class DummyUserRepository @Inject constructor(
     ): Result<User> {
         delay(2000)
         if (dummyUserDatabase.users.any { user -> user.username == username }) {
-            return Result.Failure("User with username $username does exists")
+            return Result.Failure(Throwable("User with username $username does exists"))
         } else {
             val id = (dummyUserDatabase.users.map { it.id }.maxOrNull() ?: -1) + 1
             val user = User(
@@ -74,7 +73,7 @@ class DummyUserRepository @Inject constructor(
                 return Result.Success(dummyUserDatabase.users[i])
             }
         }
-        return Result.Failure("No user with id $id")
+        return Result.Failure(Throwable("No user with id $id"))
     }
 
     override suspend fun removeUser(id: Int): Result<User> {
@@ -85,6 +84,6 @@ class DummyUserRepository @Inject constructor(
                 return Result.Success(user)
             }
         }
-        return Result.Failure("No user with id $id")
+        return Result.Failure(Throwable("No user with id $id"))
     }
 }

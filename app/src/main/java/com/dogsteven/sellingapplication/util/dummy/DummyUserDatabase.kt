@@ -7,8 +7,8 @@ class DummyUserDatabase @Inject constructor() {
     val users: ArrayList<User> = arrayListOf(
         User(
             id = 0,
-            username = "dogsteven",
-            password = "12345678",
+            username = "admin",
+            password = "admin123",
             firstname = "Khoa",
             lastname = "Huynh Bach",
             phone = "0972875800",
@@ -16,7 +16,7 @@ class DummyUserDatabase @Inject constructor() {
         ),
         User(
             id = 1,
-            username = "khoahuynhbach",
+            username = "employee",
             password = "12345678",
             firstname = "Khoa",
             lastname = "Huynh Bach",
