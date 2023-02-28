@@ -1,7 +1,7 @@
 package com.dogsteven.sellingapplication.presentation.screen.main
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.material3.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ExitToApp
 import androidx.compose.runtime.*
@@ -9,7 +9,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
@@ -25,6 +24,7 @@ import com.dogsteven.sellingapplication.presentation.screen.main.viewmodel.MainV
 import com.dogsteven.sellingapplication.util.AppDataStore
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainComposable(
     appNavController: AppNavController,
@@ -41,7 +41,6 @@ fun MainComposable(
 
     val state by viewModel.state.collectAsState()
 
-    val scaffoldState = rememberScaffoldState()
     val visibleRoutes: List<MainNavigationRoute> = listOf(RouteGraph.Main.Dashboard, RouteGraph.Main.Analytic, RouteGraph.Main.Management)
         .filter { route ->
             route.permissions.any(user.permissions::contains)
@@ -52,10 +51,12 @@ fun MainComposable(
 
     val currentMainRoute: MainNavigationRoute? = visibleRoutes.firstOrNull { route -> currentDestination?.route == route.destination }
 
+    val snackbarHostState = remember { SnackbarHostState() }
+
     EventHandlerComposable(
         appNavController = appNavController,
         viewModel = viewModel,
-        scaffoldState = scaffoldState
+        snackbarHostState = snackbarHostState
     )
 
     if (state.isShowSignOutDialog) {
@@ -69,29 +70,20 @@ fun MainComposable(
             text = {
                 Text(text = "Are you sure you want to sign out?")
             },
-            buttons = {
-                Row(
-                    horizontalArrangement = Arrangement.End,
-                    modifier = Modifier
-                        .padding(horizontal = 8f.dp)
-                        .fillMaxWidth()
-                ) {
-                    TextButton(onClick = {
-                        signOutScope.launch {
-                            viewModel.signOut()
-                        }
-                    }) {
-                        Text(text = "Sign out")
+            confirmButton = {
+                TextButton(onClick = {
+                    signOutScope.launch {
+                        viewModel.signOut()
                     }
+                }) {
+                    Text(text = "Sign out")
                 }
-            },
-            modifier = Modifier
-                .fillMaxWidth()
+            }
         )
     }
 
     Scaffold(
-        scaffoldState = scaffoldState,
+        snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
             TopAppBar(
                 title = { Text(text = currentMainRoute?.name ?: "") },
@@ -103,16 +95,9 @@ fun MainComposable(
             )
         },
         bottomBar = {
-            BottomNavigation {
+            NavigationBar {
                 for (route in visibleRoutes) {
-                    BottomNavigationItem(
-                        icon = {
-                            Icon(
-                                ImageVector.vectorResource(route.icon),
-                                contentDescription = null
-                            )
-                        },
-                        label = { Text(text = route.name) },
+                    NavigationBarItem(
                         selected = currentMainRoute == route,
                         onClick = {
                             appNavController.navigate(route) {
@@ -122,7 +107,14 @@ fun MainComposable(
                                 launchSingleTop = true
                                 restoreState = true
                             }
-                        }
+                        },
+                        icon = {
+                            Icon(
+                                imageVector = ImageVector.vectorResource(id = route.icon),
+                                contentDescription = null
+                            )
+                        },
+                        label = { Text(text = route.name) }
                     )
                 }
             }
@@ -133,9 +125,9 @@ fun MainComposable(
             startDestination = visibleRoutes[0].destination,
             modifier = Modifier.padding(innerPaddings)
         ) {
-            buildDashboardComposable(appNavController, scaffoldState)
-            buildAnalyticComposable(appNavController, scaffoldState)
-            buildManagementComposable(appNavController, scaffoldState)
+            buildDashboardComposable(appNavController, snackbarHostState)
+            buildAnalyticComposable(appNavController, snackbarHostState)
+            buildManagementComposable(appNavController, snackbarHostState)
         }
     }
 }

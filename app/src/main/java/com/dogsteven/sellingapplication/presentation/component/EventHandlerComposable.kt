@@ -1,6 +1,7 @@
 package com.dogsteven.sellingapplication.presentation.component
 
 import androidx.compose.material.ScaffoldState
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import com.dogsteven.sellingapplication.common.ApplicationEvent
@@ -12,7 +13,7 @@ import kotlinx.coroutines.flow.collectLatest
 fun EventHandlerComposable(
     appNavController: AppNavController,
     viewModel: BaseViewModel,
-    scaffoldState: ScaffoldState? = null
+    snackbarHostState: SnackbarHostState? = null
 ) {
     LaunchedEffect(true) {
         viewModel.event.collectLatest { event ->
@@ -22,9 +23,9 @@ fun EventHandlerComposable(
                     appNavController.navigate(route, builder)
                 }
                 is ApplicationEvent.UIEvent.ShowSnackBar -> {
-                    if (scaffoldState != null) {
+                    if (snackbarHostState != null) {
                         val (message, actionLabel) = event
-                        scaffoldState.snackbarHostState.showSnackbar(message, actionLabel)
+                        snackbarHostState.showSnackbar(message, actionLabel)
                     }
                 }
             }

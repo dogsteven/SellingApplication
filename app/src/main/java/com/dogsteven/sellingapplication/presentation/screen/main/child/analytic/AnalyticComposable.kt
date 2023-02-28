@@ -1,6 +1,7 @@
 package com.dogsteven.sellingapplication.presentation.screen.main.child.analytic
 
 import androidx.compose.material.ScaffoldState
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -15,7 +16,7 @@ import com.dogsteven.sellingapplication.util.AppDataStore
 @Composable
 fun AnalyticComposable(
     appNavController: AppNavController,
-    scaffoldState: ScaffoldState,
+    snackbarHostState: SnackbarHostState,
     viewModel: AnalyticViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
@@ -31,6 +32,6 @@ fun AnalyticComposable(
     EventHandlerComposable(
         appNavController = appNavController,
         viewModel = viewModel,
-        scaffoldState = scaffoldState
+        snackbarHostState = snackbarHostState
     )
 }

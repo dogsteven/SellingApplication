@@ -1,6 +1,7 @@
 package com.dogsteven.sellingapplication.presentation.screen.main.child.management
 
 import androidx.compose.material.ScaffoldState
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -14,7 +15,7 @@ import com.dogsteven.sellingapplication.util.AppDataStore
 @Composable
 fun ManagementComposable(
     appNavController: AppNavController,
-    scaffoldState: ScaffoldState,
+    snackbarHostState: SnackbarHostState,
     viewModel: ManagementViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
@@ -30,6 +31,6 @@ fun ManagementComposable(
     EventHandlerComposable(
         appNavController = appNavController,
         viewModel = viewModel,
-        scaffoldState = scaffoldState
+        snackbarHostState = snackbarHostState
     )
 }
