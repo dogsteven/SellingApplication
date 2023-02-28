@@ -1,5 +1,6 @@
 package com.dogsteven.sellingapplication.presentation.screen.main.child.dashboard
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.ScaffoldState
@@ -27,6 +28,7 @@ fun DashboardComposable(
     val context = LocalContext.current
     val appDataStore = AppDataStore(context)
     val userFromDataStore by appDataStore.currentUser.collectAsState(initial = null)
+    val state by viewModel.state.collectAsState()
 
     val user = if (userFromDataStore == null) {
         return
@@ -48,6 +50,8 @@ fun DashboardComposable(
         modifier = Modifier
             .fillMaxSize()
     ) {
-
+        for (product in state.products) {
+            Text(text = product.name)
+        }
     }
 }
