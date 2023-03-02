@@ -14,7 +14,6 @@ class RemoveAllOrdersUntilDateUseCase @Inject constructor(
     object Response
 
     suspend fun execute(request: Request): Response {
-        delay(2000)
         val date = request.date
         orderRepository.removeAllOrdersUntilDate(date)
         return Response

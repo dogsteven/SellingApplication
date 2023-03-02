@@ -7,6 +7,7 @@ import com.dogsteven.sellingapplication.domain.use_case.GetAllOrdersFromDateUseC
 import com.dogsteven.sellingapplication.domain.use_case.GetAllProductsUseCase
 import com.dogsteven.sellingapplication.util.BaseViewModel
 import com.dogsteven.sellingapplication.util.ResultHandler
+import com.dogsteven.sellingapplication.util.eraseTime
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import java.util.*
@@ -23,7 +24,7 @@ class DashboardViewModel @Inject constructor(
     val state: StateFlow<DashboardState> = _state
 
     val orders: Flow<List<Order.OrderWithSubOrders>> = run {
-        val request = GetAllOrdersFromDateUseCase.Request(Calendar.getInstance().time)
+        val request = GetAllOrdersFromDateUseCase.Request(Calendar.getInstance().time.eraseTime)
         val response = getAllOrdersFromDateUseCase.execute(request)
         response.listOfOrdersFlow
     }

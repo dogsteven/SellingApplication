@@ -1,13 +1,7 @@
 package com.dogsteven.sellingapplication.presentation.screen.sign_in
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -33,7 +27,7 @@ fun SignInComposable(
     EventHandlerComposable(appNavController = appNavController, viewModel = viewModel)
 
     LaunchedEffect(true) {
-        viewModel.getUserFromAppDataStore()
+        viewModel.getSavedUsernameAndPasswordFromAppDataStore()
     }
 
     val state by viewModel.state.collectAsState()
@@ -58,6 +52,18 @@ fun SignInComposable(
                 placeholder = { Text(text = "Password") },
                 visualTransformation = PasswordVisualTransformation()
             )
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.End
+            ) {
+                Checkbox(
+                    checked = state.isSaveUsernameAndPassword,
+                    onCheckedChange = viewModel::setIsSaveUsernameAndPassword
+                )
+
+                Text(text = "Save username and password?")
+            }
 
             Button(
                 onClick = viewModel::authenticate,

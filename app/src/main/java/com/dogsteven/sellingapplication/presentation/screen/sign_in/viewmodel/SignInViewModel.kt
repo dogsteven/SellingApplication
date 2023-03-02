@@ -33,12 +33,17 @@ class SignInViewModel @Inject constructor(
         _state.value = _state.value.copy(authenticationState = authenticationState)
     }
 
-    suspend fun getUserFromAppDataStore() {
+    fun setIsSaveUsernameAndPassword(value: Boolean) {
+        _state.value = _state.value.copy(isSaveUsernameAndPassword = value)
+    }
+
+    suspend fun getSavedUsernameAndPasswordFromAppDataStore() {
         val appDataStore = AppDataStore(context = application.applicationContext)
-        appDataStore.currentUser.collectLatest { user ->
-            if (user != null) {
-                setInputUsername(user.username)
-                setInputPassword(user.password)
+        appDataStore.currentSavedUsernameAndPassword.collectLatest { savedUsernameAndPassword ->
+            if (savedUsernameAndPassword != null) {
+                val (savedUsername, savedPassword) = savedUsernameAndPassword
+                setInputUsername(savedUsername)
+                setInputPassword(savedPassword)
             }
         }
     }
@@ -48,6 +53,16 @@ class SignInViewModel @Inject constructor(
             override suspend fun onSuccess(value: AuthenticateUserUseCase.Response) {
                 setAuthenticationState(SignInState.AuthenticationState.Success)
                 val appDataStore = AppDataStore(context = application.applicationContext)
+
+                if (_state.value.isSaveUsernameAndPassword) {
+                    appDataStore.saveSavedUsernameAndPassword(
+                        username = value.user.username,
+                        password = value.user.password
+                    )
+                } else {
+                    appDataStore.removeSavedUsernameAndPassword()
+                }
+
                 appDataStore.saveUser(value.user)
 
                 val navigateToMain = ApplicationEvent.UIEvent.NavigateTo(RouteGraph.Main) {

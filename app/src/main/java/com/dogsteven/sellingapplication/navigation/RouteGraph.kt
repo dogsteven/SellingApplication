@@ -7,6 +7,10 @@ object RouteGraph {
     object Splash: RootNavigationRoute(destination = "splash")
     object SignIn: RootNavigationRoute(destination = "sign-in")
     object Main: RootNavigationRoute(destination = "main") {
+        val children: List<MainNavigationRoute> = listOf(
+            Dashboard, Analytic, Management, Personal
+        )
+
         object Dashboard: MainNavigationRoute(
             destination = "main/dashboard",
             icon = R.drawable.ic_round_dashboard_24,
@@ -26,6 +30,13 @@ object RouteGraph {
             icon = R.drawable.ic_round_settings_24,
             name = "Management",
             permissions = listOf(User.Permission.Administrator)
+        )
+
+        object Personal: MainNavigationRoute(
+            destination = "main/personal",
+            icon = R.drawable.ic_round_person_24,
+            name = "Personal",
+            permissions = listOf(User.Permission.Administrator, User.Permission.Employee)
         )
     }
 }

@@ -50,7 +50,6 @@ class InsertCompleteOrderUseCase @Inject constructor(
     data class Response(val id: Long)
 
     suspend fun execute(request: Request): Response {
-        delay(2000)
         val order = Order(
             id = 0,
             date = request.order.date,

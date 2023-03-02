@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Text
+import androidx.compose.material3.Card
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -50,8 +51,6 @@ fun DashboardComposable(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        for (product in state.products) {
-            Text(text = product.name)
-        }
+        
     }
 }

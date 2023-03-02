@@ -7,6 +7,7 @@ import androidx.compose.material.icons.rounded.ExitToApp
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -20,6 +21,7 @@ import com.dogsteven.sellingapplication.presentation.component.EventHandlerCompo
 import com.dogsteven.sellingapplication.presentation.screen.main.child.analytic.buildAnalyticComposable
 import com.dogsteven.sellingapplication.presentation.screen.main.child.dashboard.buildDashboardComposable
 import com.dogsteven.sellingapplication.presentation.screen.main.child.management.buildManagementComposable
+import com.dogsteven.sellingapplication.presentation.screen.main.child.personal.buildPersonalComposable
 import com.dogsteven.sellingapplication.presentation.screen.main.viewmodel.MainViewModel
 import com.dogsteven.sellingapplication.util.AppDataStore
 import kotlinx.coroutines.launch
@@ -41,10 +43,12 @@ fun MainComposable(
 
     val state by viewModel.state.collectAsState()
 
-    val visibleRoutes: List<MainNavigationRoute> = listOf(RouteGraph.Main.Dashboard, RouteGraph.Main.Analytic, RouteGraph.Main.Management)
-        .filter { route ->
-            route.permissions.any(user.permissions::contains)
-        }
+    val visibleRoutes: List<MainNavigationRoute> = remember(user.permissions) {
+        RouteGraph.Main.children
+            .filter { route ->
+                route.permissions.any(user.permissions::contains)
+            }
+    }
 
     val mainNavBackStackEntry by appNavController.mainNavController.currentBackStackEntryAsState()
     val currentDestination = mainNavBackStackEntry?.destination
@@ -52,6 +56,7 @@ fun MainComposable(
     val currentMainRoute: MainNavigationRoute? = visibleRoutes.firstOrNull { route -> currentDestination?.route == route.destination }
 
     val snackbarHostState = remember { SnackbarHostState() }
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
     EventHandlerComposable(
         appNavController = appNavController,
@@ -86,6 +91,7 @@ fun MainComposable(
         snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
             TopAppBar(
+                scrollBehavior = scrollBehavior,
                 title = { Text(text = currentMainRoute?.name ?: "") },
                 actions = {
                     IconButton(onClick = viewModel::showSignOutDialog) {
@@ -118,7 +124,9 @@ fun MainComposable(
                     )
                 }
             }
-        }
+        },
+        modifier = Modifier
+            .nestedScroll(scrollBehavior.nestedScrollConnection)
     ) { innerPaddings ->
         NavHost(
             navController = appNavController.mainNavController,
@@ -128,6 +136,7 @@ fun MainComposable(
             buildDashboardComposable(appNavController, snackbarHostState)
             buildAnalyticComposable(appNavController, snackbarHostState)
             buildManagementComposable(appNavController, snackbarHostState)
+            buildPersonalComposable(appNavController, snackbarHostState)
         }
     }
 }
